@@ -1,4 +1,22 @@
 {
   "name": "monorepo-nodemon",
-  "packageManager": "yarn@4.12.0"
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "pnpm run -r --parallel dev",
+    "dev:core": "pnpm -F @monorepo-nodemon/core dev",
+    "dev:client": "pnpm -F @monorepo-nodemon/desktop-client dev",
+    "dev:electron": "pnpm -F @monorepo-nodemon/desktop-electron dev",
+    "dev:full": "pnpm run -r build && pnpm run dev",
+    "build": "pnpm run -r build"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "eslint": "^8.0.0",
+    "eslint-plugin-react": "^7.0.0",
+    "eslint-plugin-react-hooks": "^4.0.0",
+    "typescript": "^5.0.0"
+  }
 }
