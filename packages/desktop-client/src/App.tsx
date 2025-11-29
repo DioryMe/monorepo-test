@@ -1,7 +1,8 @@
-import React from "react";
+import { Diory } from "@monorepo-nodemon/core";
 
-const App: React.FC = () => {
-  return <div className="app">Hello</div>;
+const App = () => {
+  const diory: Diory = { id: "1224", text: "jee" };
+  return <div className="app">{JSON.stringify(diory)}</div>;
 };
 
 export default App;

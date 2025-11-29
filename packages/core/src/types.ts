@@ -1,6 +1,6 @@
 export interface Diory {
   id: string;
-  text?: string;
+  text: string;
   image?: string;
   latlng?: string;
   date?: string;

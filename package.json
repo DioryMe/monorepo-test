@@ -8,7 +8,8 @@
     "dev:client": "pnpm -F @monorepo-nodemon/desktop-client dev",
     "dev:electron": "pnpm -F @monorepo-nodemon/desktop-electron dev",
     "dev:full": "pnpm run -r build && pnpm run dev",
-    "build": "pnpm run -r build"
+    "build": "pnpm run -r build",
+    "build-watch": "pnpm run -r --parallel build-watch"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
