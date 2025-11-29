@@ -7,7 +7,7 @@
   "scripts": {
     "build": "tsc",
     "build-watch": "tsc --watch",
-    "dev": "electron ."
+    "dev": "electronmon ."
   },
   "dependencies": {
     "@monorepo-nodemon/core": "workspace:*"
@@ -15,6 +15,7 @@
   "devDependencies": {
     "@types/node": "^24.0.12",
     "electron": "^37.2.0",
+    "electronmon": "2.0.4",
     "typescript": "^5.8.3"
   }
 }

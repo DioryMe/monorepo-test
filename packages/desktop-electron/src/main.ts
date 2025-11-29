@@ -1,17 +1,18 @@
 import { app, BrowserWindow, dialog, ipcMain, protocol, net } from "electron";
 import { join } from "path";
 import { watch } from "fs";
+import { Diory, IPC_ACTIONS } from "@monorepo-nodemon/core";
 
 let mainWindow: BrowserWindow;
 
 const createWindow = () => {
   mainWindow = new BrowserWindow({
-    width: 1000,
+    width: 800,
     height: 800,
     webPreferences: {
-      nodeIntegration: false,
-      contextIsolation: true,
       preload: join(__dirname, "preload.js"),
+      contextIsolation: true,
+      nodeIntegration: false,
     },
   });
 
@@ -34,6 +35,8 @@ protocol.registerSchemesAsPrivileged([
 ]);
 
 app.whenReady().then(async () => {
+  const diory: Diory = { id: "54321", text: "1223" };
+  console.log("diory", JSON.stringify(diory));
   createWindow();
 
   app.on("activate", () => {
@@ -45,4 +48,20 @@ app.on("window-all-closed", () => {
   if (process.platform !== "darwin") {
     app.quit();
   }
+});
+
+ipcMain.handle(IPC_ACTIONS.SELECT_FOLDER, async () => {
+  const result = await dialog.showOpenDialog(mainWindow, {
+    // properties: ["openDirectory"],
+    properties: ["openFile"],
+  });
+
+  if (!result.canceled && result.filePaths.length > 0) {
+    const folderPath = result.filePaths[0];
+
+    console.log("folderPath", folderPath);
+    return { success: true, data: folderPath };
+  }
+
+  return { success: false, error: "No folder selected" };
 });
