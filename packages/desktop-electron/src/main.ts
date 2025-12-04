@@ -1,7 +1,8 @@
 import { app, BrowserWindow, dialog, ipcMain, protocol, net } from "electron";
 import { join } from "path";
 import { watch } from "fs";
-import { Diory, IPC_ACTIONS } from "@monorepo-nodemon/core";
+import { Diory } from "@monorepo-nodemon/core";
+import { IPC_ACTIONS } from "./ipc_actions";
 
 let mainWindow: BrowserWindow;
 
@@ -64,4 +65,8 @@ ipcMain.handle(IPC_ACTIONS.SELECT_FOLDER, async () => {
   }
 
   return { success: false, error: "No folder selected" };
+});
+
+ipcMain.handle(IPC_ACTIONS.PING, async () => {
+  return { success: true, data: "PONG" };
 });

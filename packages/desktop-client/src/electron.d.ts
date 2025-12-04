@@ -4,6 +4,7 @@ declare global {
   interface Window {
     electronAPI: {
       selectFolder: () => Promise<IPCResponse<string>>;
+      ping: () => Promise<IPCResponse<string>>;
     };
   }
 }

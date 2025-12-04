@@ -5,3 +5,5 @@ dist
 tsconfig.tsbuildinfo
 
 .claude
+
+test-results
