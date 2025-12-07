@@ -27,5 +27,14 @@ jobs:
       - name: Install Playwright browsers
         run: sudo apt-get --yes remove --purge man-db && npx playwright install --with-deps chrome
 
+      - name: LS
+        run: ls ./node_modules/electron/
+
+      - name: LS
+        run: ls ./node_modules/electron/dist/
+
+      - name: LS
+        run: ./node_modules/electron/dist/electron --version
+
       - name: Run Playwright tests
         run: npx playwright test

@@ -10,7 +10,7 @@ console.log("appDir", appDir);
 test("Electron app basic tests", async () => {
   const electronApp = await electron.launch({
     executablePath: electronPath,
-    args: [appDir],
+    args: [path.join(appDir, "dist/main.js")],
   });
 
   // ---- MAIN WINDOW -----------------------------------------
