@@ -17,7 +17,7 @@ const createWindow = () => {
     },
   });
 
-  mainWindow.loadURL("http://localhost:5173");
+  mainWindow.loadURL("http://localhost:4173");
   mainWindow.webContents.openDevTools();
 };
 
