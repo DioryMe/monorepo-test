@@ -9,7 +9,7 @@ test("Electron app basic tests", async () => {
   try {
     const electronApp = await electron.launch({
       executablePath: electronPath,
-      args: [mainScriptPath, "--no-sandbox"],
+      args: [mainScriptPath, "--no-sandbox", "--headless"],
     });
 
     // ---- MAIN WINDOW -----------------------------------------

@@ -20,7 +20,7 @@ const createWindow = () => {
   mainWindow.loadFile(indexHtmlPath);
 
   // mainWindow.loadURL("http://localhost:5173");
-  mainWindow.webContents.openDevTools();
+  // mainWindow.webContents.openDevTools();
 };
 
 protocol.registerSchemesAsPrivileged([
