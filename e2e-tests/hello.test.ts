@@ -1,10 +1,16 @@
 import { test, expect, _electron as electron } from "@playwright/test";
 import path from "node:path";
 
+const electronPath = require("electron");
+const appDir = path.join(__dirname, "../packages/desktop-electron/");
+
+console.log("electronPath", electronPath);
+console.log("appDir", appDir);
+
 test("Electron app basic tests", async () => {
   const electronApp = await electron.launch({
-    executablePath: require("electron"),
-    args: [path.join(__dirname, "../packages/desktop-electron/dist/main.js")],
+    executablePath: electronPath,
+    args: [appDir],
   });
 
   // ---- MAIN WINDOW -----------------------------------------
@@ -23,7 +29,7 @@ test("Electron app basic tests", async () => {
     return app.getVersion();
   });
 
-  expect(someMainValue).toBe("37.10.2");
+  expect(someMainValue).toBe("0.0.1");
 
   // ---- CLEANUP --------------------------------------------
   await electronApp.close();
