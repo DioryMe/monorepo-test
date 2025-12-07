@@ -4,17 +4,13 @@ import path from "node:path";
 const electronPath = require("electron");
 const appDir = path.join(__dirname, "../packages/desktop-electron/");
 
-console.log("electronPath", electronPath);
-console.log("appDir", appDir);
-
 test("Electron app basic tests", async () => {
   const mainScriptPath = path.join(appDir, "dist/main.js");
-  console.log("mainScriptPath", mainScriptPath);
 
   try {
     const electronApp = await electron.launch({
       executablePath: electronPath,
-      args: [mainScriptPath],
+      args: [mainScriptPath, "--no-sandbox"],
     });
 
     // ---- MAIN WINDOW -----------------------------------------

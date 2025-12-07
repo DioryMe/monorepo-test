@@ -24,9 +24,6 @@ jobs:
       - name: Build Vite
         run: pnpm run build
 
-      - name: Check desktop-electron build
-        run: ls -la ./packages/desktop-electron/dist/
-
       - name: Install Playwright browsers
         run: sudo apt-get --yes remove --purge man-db && npx playwright install --with-deps chrome
 
