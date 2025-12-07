@@ -25,10 +25,10 @@ test("Electron app basic tests", async () => {
 
     // ---- ACCESS MAIN PROCESS --------------------------------
     const someMainValue = await electronApp.evaluate(async ({ app }) => {
-      return app.getVersion();
+      return app.isReady();
     });
 
-    expect(someMainValue).toBe("0.0.1");
+    expect(someMainValue).toBe(true);
 
     // ---- CLEANUP --------------------------------------------
     await electronApp.close();
