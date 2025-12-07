@@ -1,6 +1,5 @@
 import { app, BrowserWindow, dialog, ipcMain, protocol, net } from "electron";
-import { join } from "path";
-import { watch } from "fs";
+import path, { join } from "path";
 import { Diory } from "@monorepo-nodemon/core";
 import { IPC_ACTIONS } from "./ipc_actions";
 
@@ -17,7 +16,10 @@ const createWindow = () => {
     },
   });
 
-  mainWindow.loadURL("http://localhost:4173");
+  const indexHtmlPath = path.join(__dirname, "./desktop-client/index.html");
+  mainWindow.loadFile(indexHtmlPath);
+
+  // mainWindow.loadURL("http://localhost:5173");
   mainWindow.webContents.openDevTools();
 };
 
@@ -36,7 +38,7 @@ protocol.registerSchemesAsPrivileged([
 ]);
 
 app.whenReady().then(async () => {
-  const diory: Diory = { id: "54321", text: "1223" };
+  const diory: Diory = { id: "5432", text: "1223" };
   console.log("diory", JSON.stringify(diory));
   createWindow();
 
