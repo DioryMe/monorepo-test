@@ -1,4 +1,4 @@
-name: CI
+name: Playwright tests
 
 on:
   push:
@@ -9,9 +9,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
           node-version: 20
 
@@ -24,8 +24,8 @@ jobs:
       - name: Build Vite
         run: pnpm run build
 
-      - name: Install Playwright browsers
-        run: sudo apt-get --yes remove --purge man-db && npx playwright install --with-deps chrome
+      - name: Install Playwright
+        run: npx playwright install
 
       - name: Run Playwright tests
         run: npx playwright test

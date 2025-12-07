@@ -3,10 +3,9 @@ import path from "node:path";
 
 const electronPath = require("electron");
 const appDir = path.join(__dirname, "../packages/desktop-electron/");
+const mainScriptPath = path.join(appDir, "dist/main.js");
 
 test("Electron app basic tests", async () => {
-  const mainScriptPath = path.join(appDir, "dist/main.js");
-
   try {
     const electronApp = await electron.launch({
       executablePath: electronPath,
