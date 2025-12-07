@@ -7,8 +7,7 @@
   "license": "MIT",
   "scripts": {
     "build": "tsc",
-    "build-watch": "tsc --watch",
-    "dev": "npm run build-watch"
+    "build-watch": "tsc --watch"
   },
   "devDependencies": {
     "typescript": "^5.8.3"
