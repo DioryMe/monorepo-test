@@ -8,29 +8,37 @@ console.log("electronPath", electronPath);
 console.log("appDir", appDir);
 
 test("Electron app basic tests", async () => {
-  const electronApp = await electron.launch({
-    executablePath: electronPath,
-    args: [path.join(appDir, "dist/main.js")],
-  });
+  const mainScriptPath = path.join(appDir, "dist/main.js");
+  console.log("mainScriptPath", mainScriptPath);
 
-  // ---- MAIN WINDOW -----------------------------------------
-  const mainWindow = await electronApp.firstWindow();
-  await mainWindow.waitForLoadState("domcontentloaded");
+  try {
+    const electronApp = await electron.launch({
+      executablePath: electronPath,
+      args: [mainScriptPath],
+    });
 
-  // Test IPC ping
-  const response = await mainWindow.evaluate(() => window.electronAPI.ping());
-  expect(response.data).toBe("PONG");
+    // ---- MAIN WINDOW -----------------------------------------
+    const mainWindow = await electronApp.firstWindow();
+    await mainWindow.waitForLoadState("domcontentloaded");
 
-  // Check the text updates in DOM
-  await expect(mainWindow.locator("div#hello")).toHaveText("Hello");
+    // Test IPC ping
+    const response = await mainWindow.evaluate(() => window.electronAPI.ping());
+    expect(response.data).toBe("PONG");
 
-  // ---- ACCESS MAIN PROCESS --------------------------------
-  const someMainValue = await electronApp.evaluate(async ({ app }) => {
-    return app.getVersion();
-  });
+    // Check the text updates in DOM
+    await expect(mainWindow.locator("div#hello")).toHaveText("Hello");
 
-  expect(someMainValue).toBe("0.0.1");
+    // ---- ACCESS MAIN PROCESS --------------------------------
+    const someMainValue = await electronApp.evaluate(async ({ app }) => {
+      return app.getVersion();
+    });
 
-  // ---- CLEANUP --------------------------------------------
-  await electronApp.close();
+    expect(someMainValue).toBe("0.0.1");
+
+    // ---- CLEANUP --------------------------------------------
+    await electronApp.close();
+  } catch (error) {
+    console.error("Test error:", error);
+    throw error;
+  }
 });
