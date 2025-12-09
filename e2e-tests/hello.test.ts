@@ -5,13 +5,14 @@ const electronPath = require("electron");
 const appDir = path.join(__dirname, "../packages/desktop-electron/");
 const mainScriptPath = path.join(appDir, "dist/main.js");
 
-process.env.CI = "e2e";
-
 test("Electron app basic tests", async () => {
   try {
     const electronApp = await electron.launch({
       executablePath: electronPath,
       args: [mainScriptPath, "--no-sandbox", "--headless"],
+      env: {
+        EXECUTION_CONTEXT: "playwright",
+      },
     });
 
     // ---- MAIN WINDOW -----------------------------------------
