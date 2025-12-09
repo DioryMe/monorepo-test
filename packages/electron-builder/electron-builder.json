@@ -1,9 +1,0 @@
-{
-  "appId": "com.diory.monorepo-test",
-  "mac": {
-    "hardenedRuntime": true,
-    "gatekeeperAssess": false,
-    "entitlements": "packages/electron-builder/entitlements.mac.plist",
-    "entitlementsInherit": "packages/electron-builder/entitlements.mac.plist"
-  }
-}

@@ -7,7 +7,8 @@
   "scripts": {
     "build": "tsc",
     "build-watch": "tsc --watch",
-    "dev": "electronmon ."
+    "dev": "electronmon .",
+    "package-mac": "electron-builder build --mac -c.extraMetadata.main=../desktop-electron/dist/main.js --publish never --config electron-builder.json"
   },
   "dependencies": {
     "@monorepo-nodemon/core": "workspace:*"
@@ -17,6 +18,7 @@
     "@types/node": "^24.0.12",
     "electron": "^37.2.0",
     "electronmon": "2.0.4",
+    "electron-builder": "^26.0.12",
     "typescript": "^5.8.3"
   }
 }

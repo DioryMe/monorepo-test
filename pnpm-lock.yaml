@@ -40,7 +40,7 @@ importers:
     dependencies:
       '@monorepo-nodemon/core':
         specifier: workspace:*
-        version: link:../electron-builder
+        version: link:../core
       '@reduxjs/toolkit':
         specifier: ^2.8.2
         version: 2.11.0(react@19.2.0)
@@ -71,7 +71,7 @@ importers:
     dependencies:
       '@monorepo-nodemon/core':
         specifier: workspace:*
-        version: link:../electron-builder
+        version: link:../core
     devDependencies:
       '@playwright/test':
         specifier: ^1.57.0
@@ -82,18 +82,15 @@ importers:
       electron:
         specifier: ^37.2.0
         version: 37.10.2
+      electron-builder:
+        specifier: ^26.0.12
+        version: 26.0.12(electron-builder-squirrel-windows@26.0.12)
       electronmon:
         specifier: 2.0.4
         version: 2.0.4
       typescript:
         specifier: ^5.8.3
         version: 5.9.3
-
-  packages/electron-builder:
-    devDependencies:
-      electron-builder:
-        specifier: ^26.0.12
-        version: 26.0.12(electron-builder-squirrel-windows@26.0.12)
 
 packages:
 
