@@ -1,0 +1,12 @@
+{
+  "name": "@monorepo-nodemon/electron-builder",
+  "version": "0.0.1",
+  "description": "Electron packaging",
+  "license": "MIT",
+  "scripts": {
+    "package-mac": "electron-builder build --mac -c.extraMetadata.main=../desktop-electron/dist/main.js --publish never --config electron-builder.json"
+  },
+  "devDependencies": {
+    "electron-builder": "^26.0.12"
+  }
+}
