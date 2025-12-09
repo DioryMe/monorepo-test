@@ -16,13 +16,13 @@ const createWindow = () => {
     },
   });
 
-  if (process.env.CI) {
-    const indexHtmlPath = path.join(__dirname, "./desktop-client/index.html");
-    mainWindow.loadFile(indexHtmlPath);
-  } else {
-    mainWindow.loadURL("http://localhost:5173");
-    mainWindow.webContents.openDevTools();
-  }
+  // if (process.env.CI) {
+  const indexHtmlPath = path.join(__dirname, "./desktop-client/index.html");
+  mainWindow.loadFile(indexHtmlPath);
+  // } else {
+  //   mainWindow.loadURL("http://localhost:5173");
+  //   mainWindow.webContents.openDevTools();
+  // }
 };
 
 protocol.registerSchemesAsPrivileged([

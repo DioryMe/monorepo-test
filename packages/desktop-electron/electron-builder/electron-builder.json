@@ -1,0 +1,10 @@
+{
+  "appId": "com.diory.monorepo-test",
+  "mac": {
+    "hardenedRuntime": true,
+    "gatekeeperAssess": false,
+    "entitlements": "entitlements.mac.plist",
+    "entitlementsInherit": "entitlements.mac.plist"
+  },
+  "files": ["dist/**/*"]
+}
