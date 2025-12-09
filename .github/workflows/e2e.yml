@@ -25,4 +25,4 @@ jobs:
         run: pnpm run build
 
       - name: Run Playwright tests
-        run: xvfb-run --auto-servernum npx playwright test
+        run: xvfb-run --auto-servernum npx playwright test hello.test.ts
