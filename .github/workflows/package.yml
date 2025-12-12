@@ -1,11 +1,11 @@
-name: Windows E2E (Playwright)
+name: Package app and run Playwright
 
 on:
   workflow_dispatch:
 
 jobs:
   test:
-    runs-on: windows-latest
+    runs-on: macos-latest
 
     steps:
       - uses: actions/checkout@v5
@@ -23,5 +23,8 @@ jobs:
       - name: Build Vite
         run: pnpm run build
 
+      - name: Package
+        run: pnpm -F @monorepo-nodemon/desktop-electron run package-mac
+
       - name: Run Playwright tests
-        run: npx playwright test hello.test.ts
+        run: npx playwright test packaged.test.ts

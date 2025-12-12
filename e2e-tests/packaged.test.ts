@@ -1,19 +1,26 @@
 import { test, expect, _electron as electron } from "@playwright/test";
-import path from "node:path";
+import path from "path";
 
-const electronPath = require("electron");
-const appDir = path.join(__dirname, "../packages/desktop-electron/");
-const mainScriptPath = path.join(appDir, "dist/main.js");
+function electronBinaryPath() {
+  if (process.platform === "win32") {
+    return path.join(
+      __dirname,
+      "../packages/desktop-electron/dist/win-unpacked/Monorepo Test Electron.exe"
+    );
+  }
+  if (process.platform === "darwin") {
+    return path.join(
+      __dirname,
+      "../packages/desktop-electron/dist/mac-arm64/Monorepo Test Electron.app/Contents/MacOS/Monorepo Test Electron"
+    );
+  }
+  throw new Error("Unsupported OS");
+}
 
-test("Electron app basic tests", async () => {
+test("Packaged app basic tests", async () => {
   try {
     const electronApp = await electron.launch({
-      executablePath: electronPath,
-      args: [mainScriptPath, "--no-sandbox", "--headless"],
-      env: {
-        ...process.env,
-        EXECUTION_CONTEXT: "playwright",
-      },
+      executablePath: electronBinaryPath(),
     });
 
     // ---- MAIN WINDOW -----------------------------------------
@@ -29,7 +36,7 @@ test("Electron app basic tests", async () => {
 
     // ---- ACCESS MAIN PROCESS --------------------------------
     const someMainValue = await electronApp.evaluate(async ({ app }) => {
-      return app.isReady();
+      return app.isPackaged;
     });
 
     expect(someMainValue).toBe(true);

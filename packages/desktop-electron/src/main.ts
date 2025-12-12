@@ -16,11 +16,17 @@ const createWindow = () => {
     },
   });
 
-  if (process.env.CI) {
+  const isPlaywrightTest = process.env.EXECUTION_CONTEXT === "playwright";
+  const isDev = !isPlaywrightTest && !app.isPackaged;
+
+  if (isDev) {
+    mainWindow.loadURL("http://localhost:5173");
+  } else {
     const indexHtmlPath = path.join(__dirname, "./desktop-client/index.html");
     mainWindow.loadFile(indexHtmlPath);
-  } else {
-    mainWindow.loadURL("http://localhost:5173");
+  }
+
+  if (process.env.DEV_TOOLS) {
     mainWindow.webContents.openDevTools();
   }
 };

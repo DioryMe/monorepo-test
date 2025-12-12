@@ -2,12 +2,14 @@
   "name": "@monorepo-nodemon/desktop-electron",
   "version": "0.0.1",
   "description": "Electron wrapper",
+  "productName": "Monorepo Test Electron",
   "license": "MIT",
   "main": "dist/main.js",
   "scripts": {
     "build": "tsc",
     "build-watch": "tsc --watch",
-    "dev": "electronmon ."
+    "dev": "electronmon .",
+    "package-mac": "electron-builder build --mac -c.extraMetadata.main=./dist/main.js --publish never --config ./electron-builder/electron-builder.json"
   },
   "dependencies": {
     "@monorepo-nodemon/core": "workspace:*"
@@ -15,8 +17,9 @@
   "devDependencies": {
     "@playwright/test": "^1.57.0",
     "@types/node": "^24.0.12",
-    "electron": "^37.2.0",
+    "electron": "37.2.0",
     "electronmon": "2.0.4",
+    "electron-builder": "26.0.12",
     "typescript": "^5.8.3"
   }
 }
