@@ -7,11 +7,13 @@ export const LoadingComponent = () => {
   const [state, setState] = useState<LoadingState>("loading");
 
   useEffect(() => {
-    const unsubscribe = window.electronAPI.folder.progress((data: any) => {
-      setProgress(data);
-    });
+    const handleProgressEvent = (eventData: any) => {
+      console.log("progressEventData", eventData);
+      setProgress(eventData);
+    };
+    const unsubscribe = window.electronAPI.folder.progress(handleProgressEvent);
 
-    return () => (unsubscribe as any)();
+    return () => unsubscribe();
   }, []);
 
   if (state === "loading") {

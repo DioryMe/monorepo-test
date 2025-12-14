@@ -81,8 +81,9 @@ ipcMain.handle("FOLDER_SELECT" satisfies IPC_ACTION, async (event) => {
 
 const generateDiograph = (webContents: any) => {
   setTimeout(() => {
-    console.log("Loading:tick");
-    webContents.send("folder:progress", Math.floor(Math.random() * 10000));
+    const data = Math.floor(Math.random() * 10000);
+    console.log("folder:progress event sent: ", data);
+    webContents.send("folder:progress", data);
     generateDiograph(webContents);
   }, 700);
 };

@@ -1,27 +1,25 @@
 import { contextBridge, ipcRenderer, IpcRendererEvent } from "electron";
-import {
-  type IPC_ACTION,
-  type ElectronAPI,
-  // } from "@monorepo-nodemon/core/dist/electron-api";
-} from "../../core/src/electron-api";
+import { type IPC_ACTION, type ElectronAPI } from "../../core/src/electron-api";
+
+type IPCListener = (_: IpcRendererEvent, data: any) => void;
 
 contextBridge.exposeInMainWorld("electronAPI", {
   folder: {
     select: () => ipcRenderer.invoke("FOLDER_SELECT" satisfies IPC_ACTION),
-    progress: (cb: (data: any) => void) => {
-      const handler = (_: IpcRendererEvent, data: any) => cb(data);
-      ipcRenderer.on("folder:progress", handler);
-      return () => ipcRenderer.removeListener("folder:progress", handler);
+    progress: (eventHandler) => {
+      const listener: IPCListener = (_, data) => eventHandler(data);
+      ipcRenderer.on("folder:progress", listener);
+      return () => ipcRenderer.removeListener("folder:progress", listener);
     },
-    error: (cb: (data: string) => void) => {
-      const handler = (_: IpcRendererEvent, data: string) => cb(data);
-      ipcRenderer.on("folder:error", handler);
-      return () => ipcRenderer.removeListener("folder:error", handler);
+    error: (eventHandler) => {
+      const listener: IPCListener = (_, data) => eventHandler(data);
+      ipcRenderer.on("folder:error", listener);
+      return () => ipcRenderer.removeListener("folder:error", listener);
     },
-    done: (cb: (data: any) => void) => {
-      const handler = (_: IpcRendererEvent, data: any) => cb(data);
-      ipcRenderer.on("folder:done", handler);
-      return () => ipcRenderer.removeListener("folder:done", handler);
+    done: (eventHandler) => {
+      const listener: IPCListener = (_, data) => eventHandler(data);
+      ipcRenderer.on("folder:done", listener);
+      return () => ipcRenderer.removeListener("folder:done", listener);
     },
   },
   ping: () => ipcRenderer.invoke("PING" satisfies IPC_ACTION),

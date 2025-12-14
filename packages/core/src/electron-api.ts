@@ -5,11 +5,13 @@ export type IPC_ACTION =
   | "FOLDER_ERROR"
   | "FOLDER_DONE";
 
+type IPCEventHandler = (data: any) => void;
+
 export interface FolderActions {
   select: () => Promise<IPCResponse>;
-  progress: (cb: (data: number) => void) => () => void;
-  error: (cb: (data: string) => void) => () => void;
-  done: (cb: (data: any) => void) => () => void;
+  progress: (eventHandler: IPCEventHandler) => () => void;
+  error: (eventHandler: IPCEventHandler) => () => void;
+  done: (eventHandler: IPCEventHandler) => () => void;
 }
 
 export interface ElectronAPI {
