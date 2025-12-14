@@ -1,15 +1,24 @@
-import { Diory } from "@monorepo-nodemon/core";
+import { useEffect, useState } from "react";
 
 const App = () => {
-  const diory: Diory = { id: "1224", text: "jee" };
   const handleSelectFolder = async () => {
-    // window.electronAPI.selectFolder();
-    window.electronAPI.ping().then((result) => alert(JSON.stringify(result)));
+    window.electronAPI.folder.select();
   };
+
+  const [loadProgress, setLoadProgress] = useState<number>(0);
+
+  useEffect(() => {
+    // This adds event listener but doesn't remove it so there will be several
+    window.electronAPI.folder.progress((data: any) => {
+      console.log("tock", data);
+      setLoadProgress(data);
+    });
+  });
+
   return (
     <>
       <div id="hello">Hello</div>;
-      <div className="app">{JSON.stringify(diory)}</div>;
+      <div className="app">Progress: {loadProgress}</div>;
       <button onClick={handleSelectFolder}>Select folder</button>
     </>
   );

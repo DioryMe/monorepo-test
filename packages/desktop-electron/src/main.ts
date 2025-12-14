@@ -61,21 +61,41 @@ app.on("window-all-closed", () => {
   }
 });
 
-ipcMain.handle(IPC_ACTIONS.SELECT_FOLDER, async () => {
+ipcMain.handle(IPC_ACTIONS.FOLDER_SELECT, async (event) => {
   const result = await dialog.showOpenDialog(mainWindow, {
-    // properties: ["openDirectory"],
-    properties: ["openFile"],
+    properties: ["openDirectory"],
   });
 
   if (!result.canceled && result.filePaths.length > 0) {
     const folderPath = result.filePaths[0];
 
     console.log("folderPath", folderPath);
+
+    console.log("Loading started...");
+    loadFolder(event.sender);
     return { success: true, data: folderPath };
   }
 
   return { success: false, error: "No folder selected" };
 });
+
+const generateDiograph = (webContents: any) => {
+  setTimeout(() => {
+    console.log("Loading:tick");
+    webContents.send("folder:progress", Math.floor(Math.random() * 10000));
+    generateDiograph(webContents);
+  }, 700);
+};
+
+async function loadFolder(webContents: Electron.WebContents) {
+  try {
+    generateDiograph(webContents);
+
+    // webContents.send("folder:done", { success: true });
+  } catch (err: any) {
+    webContents.send("folder:error", err.message);
+  }
+}
 
 ipcMain.handle(IPC_ACTIONS.PING, async () => {
   return { success: true, data: "PONG" };
