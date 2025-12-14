@@ -1,19 +1,7 @@
-import { IPCResponse } from "@monorepo-nodemon/core";
+import { ElectronAPI } from "@monorepo-nodemon/core/dist/electron-api";
 
 declare global {
   interface Window {
-    electronAPI: {
-      folder: {
-        select: () => Promise<IPCResponse<string>>;
-        progress: (
-          cb: any
-        ) => (
-          callback: (data: FolderProgress) => any | Destructor
-        ) => () => void;
-        error: () => (callback: (data: FolderProgress) => void) => void;
-        done: () => (callback: (data: FolderProgress) => void) => void;
-      };
-      ping: () => Promise<IPCResponse<string>>;
-    };
+    electronAPI: ElectronAPI;
   }
 }

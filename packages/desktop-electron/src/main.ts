@@ -1,7 +1,7 @@
 import { app, BrowserWindow, dialog, ipcMain, protocol, net } from "electron";
 import path, { join } from "path";
-import { Diory } from "@monorepo-nodemon/core";
-import { IPC_ACTIONS } from "./ipc_actions";
+import { Diory } from "@monorepo-nodemon/core/dist/types";
+import { type IPC_ACTION } from "@monorepo-nodemon/core/dist/electron-api";
 
 let mainWindow: BrowserWindow;
 
@@ -61,7 +61,7 @@ app.on("window-all-closed", () => {
   }
 });
 
-ipcMain.handle(IPC_ACTIONS.FOLDER_SELECT, async (event) => {
+ipcMain.handle("FOLDER_SELECT" satisfies IPC_ACTION, async (event) => {
   const result = await dialog.showOpenDialog(mainWindow, {
     properties: ["openDirectory"],
   });
@@ -97,6 +97,6 @@ async function loadFolder(webContents: Electron.WebContents) {
   }
 }
 
-ipcMain.handle(IPC_ACTIONS.PING, async () => {
+ipcMain.handle("PING" satisfies IPC_ACTION, async () => {
   return { success: true, data: "PONG" };
 });

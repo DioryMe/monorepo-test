@@ -16,7 +16,8 @@ const App = () => {
 
   return (
     <>
-      <div id="hello">Hello</div>;{loading && <LoadingComponent />}
+      <div id="hello">Hello</div>
+      {loading && <LoadingComponent />}
       <button onClick={handleSelectFolder}>Select folder</button>
     </>
   );

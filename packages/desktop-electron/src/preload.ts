@@ -1,25 +1,28 @@
 import { contextBridge, ipcRenderer, IpcRendererEvent } from "electron";
-// Due to misconfigured build (?) enabling this will cause window.electronAPI to break
-// import { IPC_ACTIONS } from "./ipc_actions";
-
-export const IPC_ACTIONS = {
-  PING: "PING",
-  FOLDER_SELECT: "FOLDER_SELECT",
-  FOLDER_PROGRESS: "FOLDER_PROGRESS",
-  FOLDER_ERROR: "FOLDER_ERROR",
-  FOLDER_DONE: "FOLDER_DONE",
-} as const;
+import {
+  type IPC_ACTION,
+  type ElectronAPI,
+  // } from "@monorepo-nodemon/core/dist/electron-api";
+} from "../../core/src/electron-api";
 
 contextBridge.exposeInMainWorld("electronAPI", {
   folder: {
-    select: () => ipcRenderer.invoke(IPC_ACTIONS.FOLDER_SELECT),
+    select: () => ipcRenderer.invoke("FOLDER_SELECT" satisfies IPC_ACTION),
     progress: (cb: (data: any) => void) => {
       const handler = (_: IpcRendererEvent, data: any) => cb(data);
       ipcRenderer.on("folder:progress", handler);
       return () => ipcRenderer.removeListener("folder:progress", handler);
     },
-    error: () => ipcRenderer.invoke(IPC_ACTIONS.FOLDER_ERROR),
-    done: () => ipcRenderer.invoke(IPC_ACTIONS.FOLDER_DONE),
+    error: (cb: (data: string) => void) => {
+      const handler = (_: IpcRendererEvent, data: string) => cb(data);
+      ipcRenderer.on("folder:error", handler);
+      return () => ipcRenderer.removeListener("folder:error", handler);
+    },
+    done: (cb: (data: any) => void) => {
+      const handler = (_: IpcRendererEvent, data: any) => cb(data);
+      ipcRenderer.on("folder:done", handler);
+      return () => ipcRenderer.removeListener("folder:done", handler);
+    },
   },
-  ping: () => ipcRenderer.invoke(IPC_ACTIONS.PING),
-});
+  ping: () => ipcRenderer.invoke("PING" satisfies IPC_ACTION),
+} satisfies ElectronAPI);

@@ -15,15 +15,3 @@ export interface Config {
 export interface DiographData {
   diories: Diory[];
 }
-
-// IPC Message Types
-export interface IPCMessage<T = any> {
-  type: string;
-  payload?: T;
-}
-
-export interface IPCResponse<T = any> {
-  success: boolean;
-  data?: T;
-  error?: string;
-}
