@@ -1,13 +1,26 @@
-import { contextBridge, ipcRenderer } from "electron";
-// Due to misconfigured build (?) enabling this will cause window.electronAPI to break
-// import { IPC_ACTIONS } from "./ipc_actions";
+import { contextBridge, ipcRenderer, IpcRendererEvent } from "electron";
+import { type IPC_ACTION, type ElectronAPI } from "../../core/src/electron-api";
 
-export const IPC_ACTIONS = {
-  PING: "PING",
-  SELECT_FOLDER: "SELECT_FOLDER",
-} as const;
+type IPCListener = (_: IpcRendererEvent, data: any) => void;
 
 contextBridge.exposeInMainWorld("electronAPI", {
-  selectFolder: () => ipcRenderer.invoke(IPC_ACTIONS.SELECT_FOLDER),
-  ping: () => ipcRenderer.invoke(IPC_ACTIONS.PING),
-});
+  folder: {
+    select: () => ipcRenderer.invoke("FOLDER_SELECT" satisfies IPC_ACTION),
+    progress: (eventHandler) => {
+      const listener: IPCListener = (_, data) => eventHandler(data);
+      ipcRenderer.on("folder:progress", listener);
+      return () => ipcRenderer.removeListener("folder:progress", listener);
+    },
+    error: (eventHandler) => {
+      const listener: IPCListener = (_, data) => eventHandler(data);
+      ipcRenderer.on("folder:error", listener);
+      return () => ipcRenderer.removeListener("folder:error", listener);
+    },
+    done: (eventHandler) => {
+      const listener: IPCListener = (_, data) => eventHandler(data);
+      ipcRenderer.on("folder:done", listener);
+      return () => ipcRenderer.removeListener("folder:done", listener);
+    },
+  },
+  ping: () => ipcRenderer.invoke("PING" satisfies IPC_ACTION),
+} satisfies ElectronAPI);

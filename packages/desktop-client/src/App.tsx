@@ -1,15 +1,23 @@
-import { Diory } from "@monorepo-nodemon/core";
+import { useEffect, useState } from "react";
+import { LoadingComponent } from "./LoadingComponent";
 
 const App = () => {
-  const diory: Diory = { id: "1224", text: "jee" };
+  const [loading, setLoading] = useState(false);
   const handleSelectFolder = async () => {
-    // window.electronAPI.selectFolder();
-    window.electronAPI.ping().then((result) => alert(JSON.stringify(result)));
+    try {
+      const result = await window.electronAPI.folder.select();
+      if (result.success) {
+        setLoading(true);
+      }
+    } catch (err) {
+      alert((err as Error).message);
+    }
   };
+
   return (
     <>
-      <div id="hello">Hello</div>;
-      <div className="app">{JSON.stringify(diory)}</div>;
+      <div id="hello">Hello</div>
+      {loading && <LoadingComponent />}
       <button onClick={handleSelectFolder}>Select folder</button>
     </>
   );

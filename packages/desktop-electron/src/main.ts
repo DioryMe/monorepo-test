@@ -1,7 +1,7 @@
 import { app, BrowserWindow, dialog, ipcMain, protocol, net } from "electron";
 import path, { join } from "path";
-import { Diory } from "@monorepo-nodemon/core";
-import { IPC_ACTIONS } from "./ipc_actions";
+import { Diory } from "@monorepo-nodemon/core/dist/types";
+import { type IPC_ACTION } from "@monorepo-nodemon/core/dist/electron-api";
 
 let mainWindow: BrowserWindow;
 
@@ -61,22 +61,43 @@ app.on("window-all-closed", () => {
   }
 });
 
-ipcMain.handle(IPC_ACTIONS.SELECT_FOLDER, async () => {
+ipcMain.handle("FOLDER_SELECT" satisfies IPC_ACTION, async (event) => {
   const result = await dialog.showOpenDialog(mainWindow, {
-    // properties: ["openDirectory"],
-    properties: ["openFile"],
+    properties: ["openDirectory"],
   });
 
   if (!result.canceled && result.filePaths.length > 0) {
     const folderPath = result.filePaths[0];
 
     console.log("folderPath", folderPath);
+
+    console.log("Loading started...");
+    loadFolder(event.sender);
     return { success: true, data: folderPath };
   }
 
   return { success: false, error: "No folder selected" };
 });
 
-ipcMain.handle(IPC_ACTIONS.PING, async () => {
+const generateDiograph = (webContents: any) => {
+  setTimeout(() => {
+    const data = Math.floor(Math.random() * 10000);
+    console.log("folder:progress event sent: ", data);
+    webContents.send("folder:progress", data);
+    generateDiograph(webContents);
+  }, 700);
+};
+
+async function loadFolder(webContents: Electron.WebContents) {
+  try {
+    generateDiograph(webContents);
+
+    // webContents.send("folder:done", { success: true });
+  } catch (err: any) {
+    webContents.send("folder:error", err.message);
+  }
+}
+
+ipcMain.handle("PING" satisfies IPC_ACTION, async () => {
   return { success: true, data: "PONG" };
 });
