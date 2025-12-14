@@ -1,24 +1,22 @@
 import { useEffect, useState } from "react";
+import { LoadingComponent } from "./LoadingComponent";
 
 const App = () => {
+  const [loading, setLoading] = useState(false);
   const handleSelectFolder = async () => {
-    window.electronAPI.folder.select();
+    try {
+      const result = await window.electronAPI.folder.select();
+      if (result.success) {
+        setLoading(true);
+      }
+    } catch (err) {
+      alert((err as Error).message);
+    }
   };
-
-  const [loadProgress, setLoadProgress] = useState<number>(0);
-
-  useEffect(() => {
-    // This adds event listener but doesn't remove it so there will be several
-    window.electronAPI.folder.progress((data: any) => {
-      console.log("tock", data);
-      setLoadProgress(data);
-    });
-  });
 
   return (
     <>
-      <div id="hello">Hello</div>;
-      <div className="app">Progress: {loadProgress}</div>;
+      <div id="hello">Hello</div>;{loading && <LoadingComponent />}
       <button onClick={handleSelectFolder}>Select folder</button>
     </>
   );
